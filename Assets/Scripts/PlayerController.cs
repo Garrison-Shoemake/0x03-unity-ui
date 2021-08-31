@@ -52,6 +52,10 @@ public class PlayerController : MonoBehaviour {
 		{
 			rb.AddForce(speed * Time.deltaTime, 0, 0);
 		}
+		if (Input.GetKey(KeyCode.Escape))
+		{
+			SceneManager.LoadScene("menu");
+		}
 	}
 	void OnTriggerEnter(Collider other)
 	{
