@@ -12,7 +12,8 @@ public class PlayerController : MonoBehaviour {
 	public int health = 5;
 	public Text scoreText;
 	public Text healthText;
-
+	public Text winLoseText;
+	public Image winLoseBG;
 	// Use this for initialization
 	void Start () {
 		rb = GetComponent<Rigidbody>();
@@ -21,11 +22,14 @@ public class PlayerController : MonoBehaviour {
 	
 	void Update()
 	{
-		if (health <= 0)
+		if (health == 0)
 		{
-			score = 0;
-			health = 5;
-			SceneManager.LoadScene("maze");
+			winLoseBG.gameObject.SetActive(true);
+			winLoseText.gameObject.SetActive(true);
+			winLoseText.color = Color.white;
+			winLoseText.text = "Game Over!";
+			winLoseBG.color = Color.red;
+			StartCoroutine(LoadScene(3));
 		}
 	}
 
@@ -64,10 +68,19 @@ public class PlayerController : MonoBehaviour {
 		}
 		if (other.tag == "Goal")
 		{
-			Debug.Log("You win!");
+			winLoseBG.gameObject.SetActive(true);
+			winLoseText.gameObject.SetActive(true);
+			winLoseText.color = Color.black;
+			winLoseText.text = "You Win!";
+			winLoseBG.color = Color.green;
+			StartCoroutine(LoadScene(3));
 		}
 	}
-
+	IEnumerator LoadScene(float seconds)
+	{
+		yield return new WaitForSeconds(3f);
+		SceneManager.LoadScene("maze");
+	}
 	void SetScoreText()
 	{
 		scoreText.text = "Score: " + score;
